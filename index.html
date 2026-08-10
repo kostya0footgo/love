@@ -190,28 +190,37 @@ const reasons = [
 "Потому что с тобой хочется прожить всю жизнь.",
 "Потому что и вообще мне не нужны причины чтобы тебя любить ❤️"
 ];
-
-let last = -1;
+let used = [];
 
 function showReason(){
-    let index;
-    do{
-        index = Math.floor(Math.random()*reasons.length);
-    }while(index===last);
+    // Если все причины уже показаны — начинаем новый круг
+    if (used.length === reasons.length) {
+        used = [];
+    }
 
-    last=index;
+    // Получаем индексы ещё не показанных причин
+    const available = reasons
+        .map((_, index) => index)
+        .filter(index => !used.includes(index));
 
-    const card=document.getElementById("reason");
-    card.style.transform="scale(0.9)";
-    card.style.opacity="0";
+    // Выбираем случайную причину из оставшихся
+    const index = available[Math.floor(Math.random() * available.length)];
 
-    setTimeout(()=>{
-        card.innerHTML="💌 " + reasons[index];
-        card.style.transform="scale(1)";
-        card.style.opacity="1";
-    },180);
+    // Запоминаем её
+    used.push(index);
+
+    const card = document.getElementById("reason");
+
+    card.style.transform = "scale(0.9)";
+    card.style.opacity = "0";
+
+    setTimeout(() => {
+        card.innerHTML = "💌 " + reasons[index];
+        card.style.transform = "scale(1)";
+        card.style.opacity = "1";
+    }, 180);
 }
-</script>
+    </script>
 
 </body>
 </html>
